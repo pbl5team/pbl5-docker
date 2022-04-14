@@ -1,4 +1,4 @@
-# pl5-docker
+# pbl5-docker
 ## To build the image
 docker build . -t [image_name]
 ## To run the image
