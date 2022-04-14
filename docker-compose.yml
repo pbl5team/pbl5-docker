@@ -2,11 +2,13 @@ version: "3.9"
 
 networks:
   laravel:
+  reactjs:
 
 services:
   nginx:
     image: nginx:stable-alpine
     container_name: nginx
+    restart: always
     ports: 
       - "8088:80"
     volumes:
@@ -40,11 +42,26 @@ services:
   php:
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: DockerFile.BE
     container_name: php
+    restart: always
     volumes:
       - ../pbl5-backend:/var/www/html
     ports:
       - "9000:9000"
     networks:
       - laravel
+
+  frontend:
+    build: 
+      context: ../pbl5-frontend
+      dockerfile: DockerFile.dev
+    command: npm run start
+    container_name: web
+    ports:
+      - "3000:3000"        
+    volumes: 
+      - ../pbl5-frontend:/frontend
+      - /frontend/node_modules
+    networks:
+      - reactjs
